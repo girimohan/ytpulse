@@ -1,0 +1,37 @@
+# Default settings. Copy to your own file and pass --config to override any key.
+sentiment:
+  backend: lexicon          # lexicon | transformer | hybrid
+  model: cardiffnlp/twitter-xlm-roberta-base-sentiment
+  pos_threshold: 0.2        # score >= this  -> positive
+  neg_threshold: -0.2       # score <= this  -> negative
+  batch_size: 32
+  hybrid_model_weight: 0.65 # share of the transformer score when the lexicon also fires
+
+quality:
+  max_len: 500                  # longer messages are treated as spam
+  flood_per_minute: 8           # one author's messages beyond this per minute are ignored
+  self_dupe_window_s: 300       # same author repeating the same text inside this window
+  coordinated_min_authors: 5    # same text from >= N distinct authors = copy-paste cluster
+  coordinated_min_len: 10       # ignore short chants ("jai hind") when clustering
+  coordinated_window_s: 180     # ...and they must arrive within this window (a burst, not a trend)
+  coordinated_policy: dedupe    # dedupe (count once) | drop (remove all) | keep
+
+analysis:
+  bucket_minutes: auto
+  min_entity_mentions: 3
+  top_n: 10
+  bootstrap: 1000
+  low_sample_n: 30
+
+display:
+  utc_offset_minutes: 330       # IST. Nepal (NPT) is 345.
+  timezone_label: IST
+
+privacy:
+  store_author_names: false     # authors are salted-hashed; names are dropped unless true
+
+ingest:
+  min_poll_seconds: 3
+  max_poll_seconds: 30
+  enrich_every_seconds: 10
+  report_every_seconds: 120

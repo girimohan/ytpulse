@@ -1,0 +1,40 @@
+# Gazetteer: who/what to count. Edit freely; add new names as they trend.
+# type: person | country | place | topic
+# Aliases are case-insensitive. Devanagari aliases also match with attached
+# Nepali/Hindi suffixes (ले, को, लाई, मा, जी ...). Latin aliases match with
+# common romanized suffixes (ji, le, ko, lai ...).
+entities:
+  # ---- people ----
+  - {id: modi, name: Narendra Modi, type: person, aliases: [modi, modiji, modi ji, narendra modi, pm modi, namo, मोदी, नरेंद्र मोदी, नरेन्द्र मोदी, मोदीजी, मोदी जी]}
+  - {id: balen, name: Balendra Shah (Balen), type: person, aliases: [balen, balendra, balen shah, balendra shah, balen da, बालेन, बालेन्द्र, बालेन शाह, बालेन्द्र शाह, बालेन दाइ]}
+  - {id: murmu, name: Droupadi Murmu, type: person, aliases: [murmu, droupadi murmu, draupadi murmu, president murmu, द्रौपदी मुर्मू, मुर्मू]}
+  - {id: jaishankar, name: S. Jaishankar, type: person, aliases: [jaishankar, jai shankar, s jaishankar, जयशंकर]}
+  - {id: oli, name: KP Sharma Oli, type: person, aliases: [oli, kp oli, k p oli, ओली, केपी ओली]}
+  - {id: prachanda, name: Prachanda, type: person, aliases: [prachanda, pushpa kamal dahal, प्रचण्ड, प्रचंड]}
+  - {id: karki, name: Sushila Karki, type: person, aliases: [sushila karki, सुशीला कार्की]}
+  - {id: xi, name: Xi Jinping, type: person, aliases: [xi jinping, शी जिनपिङ]}
+  - {id: baskota, name: Gokul Prasad Baskota, type: person, aliases: [gokul baskota, gokul prasad baskota, gokul, baskota, bascota, gokul ji, गोकुल बास्कोटा, गोकुल प्रसाद बास्कोटा, गोकुल, बास्कोटा, बाँस्कोटा, बास्कोटाको]}
+  - {id: baniya, name: Rajendra Baniya (host), type: person, aliases: [rajendra baniya, rajindra baniya, rajendra, rajindra, baniya, राजेन्द्र बानिया, राजेन्द्र, बानिया]}
+  # ---- parties ----
+  - {id: uml, name: CPN-UML (एमाले), type: topic, aliases: [uml, emale, cpn-uml, एमाले, एमालेको]}
+  - {id: rsp, name: RSP (रास्वपा), type: topic, aliases: [rsp, raspa, rastriya swatantra, रास्वपा, रास्पा, स्वतन्त्र पार्टी]}
+  - {id: congress, name: Nepali Congress, type: topic, aliases: [congress, nepali congress, कांग्रेस, काङ्ग्रेस]}
+  # ---- countries ----
+  - {id: nepal, name: Nepal, type: country, aliases: [nepal, nepali, nepalese, नेपाल, नेपाली, "🇳🇵"]}
+  - {id: india, name: India, type: country, aliases: [india, indian, bharat, hindustan, भारत, इंडिया, हिंदुस्तान, भारतीय, "🇮🇳"]}
+  - {id: china, name: China, type: country, aliases: [china, chinese, चीन, "🇨🇳"]}
+  - {id: pakistan, name: Pakistan, type: country, aliases: [pakistan, पाकिस्तान]}
+  # ---- places ----
+  - {id: delhi, name: Delhi, type: place, aliases: [delhi, new delhi, दिल्ली]}
+  - {id: kathmandu, name: Kathmandu, type: place, aliases: [kathmandu, ktm, काठमाडौं, काठमांडू]}
+  - {id: rashtrapati_bhavan, name: Rashtrapati Bhavan, type: place, aliases: [rashtrapati bhavan, rashtrapati bhawan, राष्ट्रपति भवन]}
+  # ---- topics ----
+  - {id: border, name: Border dispute (Kalapani/Lipulekh), type: topic, aliases: [kalapani, lipulekh, limpiyadhura, border, border dispute, कालापानी, लिपुलेख, लिपुलेक, लिम्पियाधुरा, सीमा]}
+  - {id: trade, name: Trade, type: topic, aliases: [trade, export, import, tariff, trade deficit, व्यापार]}
+  - {id: energy, name: Energy / hydropower, type: topic, aliases: [hydropower, electricity, energy, power export, बिजुली, जलविद्युत]}
+  - {id: connectivity, name: Connectivity (rail/road/air), type: topic, aliases: [railway, rail, highway, connectivity, airport, flights, रेल]}
+  - {id: gorkha, name: Gorkha / Agnipath, type: topic, aliases: [gorkha, gurkha, agnipath, gorkha regiment, गोरखा, अग्निपथ]}
+  - {id: open_border, name: Open border / visas, type: topic, aliases: [open border, visa, work permit, खुला सिमाना]}
+  - {id: culture, name: Culture & religion, type: topic, aliases: [pashupatinath, janakpur, sita, mata sita, lumbini, buddha, पशुपतिनाथ, जनकपुर, सीता, लुम्बिनी, बुद्ध]}
+  - {id: corruption, name: Corruption, type: topic, aliases: [corruption, corrupt, भ्रष्टाचार]}
+  - {id: jobs, name: Jobs & youth, type: topic, aliases: [jobs, employment, unemployment, youth, gen z, genz, रोजगार, बेरोजगार]}
