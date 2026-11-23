@@ -9,7 +9,7 @@
     "sentiment_model": "hybrid(cardiffnlp/twitter-xlm-roberta-base-sentiment+lexicon-v1)",
     "source_kind": "comment",
     "synthetic": false,
-    "generated_at": "2026-11-23T08:40:42+00:00",
+    "generated_at": "2026-11-23T08:59:03+00:00",
     "window_start": "2026-11-22T15:58:18+00:00",
     "window_end": "2026-11-23T08:39:44+00:00",
     "span_minutes": 1001.4,

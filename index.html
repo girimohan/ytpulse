@@ -1,9 +1,116 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>Sentiment reports</title>
-<style>:root{--bg:#f9f9f7;--ink:#0b0b0b;--ink2:#52514e;--line:#e1e0d9}
-@media(prefers-color-scheme:dark){:root{--bg:#0d0d0d;--ink:#f0efec;--ink2:#c3c2b7;--line:#2c2c2a}}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,"Segoe UI","Nirmala UI",sans-serif}
-main{max-width:760px;margin:0 auto;padding:24px 16px 64px}h1{font-size:24px}
-ul{list-style:none;padding:0}li{padding:12px 0;border-bottom:1px solid var(--line)}
-a{color:inherit;font-weight:600}span{display:block;color:var(--ink2);font-size:14px}</style></head>
-<body><main><h1>Sentiment reports</h1><ul><li><a href='TlyiwGr4Fc4/report.html'>‘प्रधानमन्त्री बालेनले पुरानो ब्यागेज नबोकी नेपाल-भारत सम्बन्ध रिसेट गर्नुपर्छ’- अरुणकुमार सुवेदी</a><span>Mixed, no clear lean · net +12 · n=109 · 2026-11-23</span></li></ul></main></body></html>
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Sentiment Pulse</title>
+<style>
+:root{--bg:#f6f6f3;--panel:#fff;--ink:#14140f;--ink2:#5a5a52;--line:#e4e3dc;--accent:#3b4cca;
+--pos:#2a9d6f;--neu:#9a9a94;--neg:#d64545;--posbg:#e3f4ec;--negbg:#fbe6e6;--neubg:#ecece8;--shadow:0 1px 2px rgba(0,0,0,.04)}
+@media (prefers-color-scheme:dark){:root{--bg:#0e0e0d;--panel:#181817;--ink:#f1f0ec;--ink2:#b9b8ad;--line:#2b2b28;--accent:#8c98ff;
+--posbg:#143327;--negbg:#3a1b1b;--neubg:#262624;--shadow:none}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI","Nirmala UI",sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:0 16px}
+.top{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:52px}
+.brand{font-weight:700;text-decoration:none;color:var(--ink)}.brand b{color:var(--accent)}
+a{color:var(--accent)}.ghost{font-size:14px;text-decoration:none}
+h1{font-size:26px;line-height:1.25;margin:24px 0 6px}h2{font-size:19px;margin:0 0 10px}h3{font-size:15px;margin:18px 0 8px;color:var(--ink2);text-transform:uppercase;letter-spacing:.04em}
+.meta,.sub{color:var(--ink2);font-size:14px}
+.card,.panel>section{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:14px 0;box-shadow:var(--shadow)}
+.chip{display:inline-block;padding:4px 12px;border-radius:999px;font-weight:700;font-size:15px;background:var(--neubg)}
+.chip.pos{background:var(--posbg);color:var(--pos)}.chip.neg{background:var(--negbg);color:var(--neg)}
+.bar{display:flex;height:16px;border-radius:8px;overflow:hidden;gap:2px;background:var(--line);margin:14px 0 8px}
+.bar span{display:block}.p{background:var(--pos)}.u{background:var(--neu)}.n{background:var(--neg)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 18px;font-size:14px}.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:16px}
+.kpi{border:1px solid var(--line);border-radius:12px;padding:12px 14px}.kpi b{display:block;font-size:26px;line-height:1.2}
+.kpi span{color:var(--ink2);font-size:13px}
+.tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--line);margin:18px 0 4px}
+.tabs button{background:none;border:0;border-bottom:3px solid transparent;color:var(--ink2);font:inherit;font-weight:600;padding:10px 14px;cursor:pointer;white-space:nowrap}
+.tabs button[aria-selected=true]{color:var(--ink);border-color:var(--accent)}
+.js .panel{display:none}.js .panel.on{display:block}.tabs{display:none}.js .tabs{display:flex}
+.note{background:var(--neubg);border-radius:10px;padding:10px 14px;font-size:14px;color:var(--ink2);margin:14px 0}
+.warn,.demo{padding:10px 14px;border-radius:10px;font-weight:600;margin:12px 0}.warn{background:#fab219;color:#14140f}.demo{background:#e34948;color:#fff}
+.share{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;align-items:start}
+figure{margin:0}img{max-width:100%;height:auto;border-radius:10px;display:block}
+figcaption{margin-top:8px}.btn{display:inline-block;padding:8px 14px;border-radius:10px;background:var(--accent);color:#fff;text-decoration:none;font-weight:600;font-size:14px;border:0;cursor:pointer;font-family:inherit}
+.btn.sec{background:var(--neubg);color:var(--ink)}
+ul.clean{margin:0;padding-left:20px}ul.clean li{margin:6px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow-x:auto}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--ink2);font-weight:600}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:640px){.cols{grid-template-columns:1fr}h1{font-size:22px}}
+blockquote{margin:6px 0;padding:8px 12px;border-left:3px solid var(--line);background:var(--neubg);border-radius:0 8px 8px 0;font-size:14px}
+footer{color:var(--ink2);font-size:13px;padding:24px 0 48px}
+
+.hero-i{padding:28px 0 8px}.hero-i h1{font-size:30px;margin:0 0 6px}
+#analyze{margin:18px 0}#analyze form{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+#analyze input[type=text],#analyze input[type=password],#analyze select{font:inherit;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+#url{flex:1 1 320px;min-width:0}#analyze .btn{padding:10px 18px;font-size:15px}
+#analyze .btn[disabled]{opacity:.6;cursor:wait}
+#status{margin-top:12px}#status.bad{background:var(--negbg);color:var(--neg)}#status.ok{background:var(--posbg);color:var(--pos)}
+details.setup{margin-top:10px;font-size:14px;color:var(--ink2)}details.setup ol{padding-left:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px;margin-top:12px}
+.rcard{display:block;text-decoration:none;color:inherit;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.rcard:hover{border-color:var(--accent)}.rcard h3{margin:10px 0 2px;font-size:16px;text-transform:none;letter-spacing:0;color:var(--ink);line-height:1.35}
+.rcard .bar{margin:12px 0 6px;height:10px}.rcard .sub{font-size:13px}
+.empty{padding:28px;text-align:center;color:var(--ink2);border:1px dashed var(--line);border-radius:14px}
+</style></head><body>
+<header class="top"><div class="wrap"><span class="brand">◐ <b>Sentiment</b> Pulse</span>
+<a class='ghost' href='https://github.com/girimohan/ytpulse' target='_blank' rel='noopener'>GitHub ↗</a></div></header>
+<main class="wrap"><div class="hero-i"><h1>YouTube comment sentiment</h1>
+<p class="sub">Paste a video link. About five minutes later you get a plain-language report and share cards.</p></div>
+<section class="card" id="analyze" data-repo="girimohan/ytpulse"><b>Analyze a video</b>
+<form id="form"><input id="url" type="text" placeholder="https://www.youtube.com/watch?v=..." aria-label="YouTube link" required>
+<select id="max" aria-label="Max comments"><option value="1000">1,000 comments</option><option value="3000" selected>3,000 comments</option><option value="5000">5,000 comments</option></select>
+<button class="btn" id="go" type="submit">Analyze</button></form>
+<div id="tokbox" hidden><p class="sub" style="margin:12px 0 6px">GitHub token (stored only in this browser):</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><input id="tok" type="password" autocomplete="off" placeholder="github_pat_..." style="flex:1 1 260px;min-width:0">
+<button class="btn sec" id="savetok" type="button">Save token</button></div><details class="setup"><summary>One-time setup: how to get the token</summary><ol>
+<li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → New fine-grained token</a>.</li>
+<li>Repository access: <b>Only select repositories</b>, pick this repository.</li>
+<li>Permissions → Repository → <b>Actions: Read and write</b>. Nothing else.</li>
+<li>Generate, copy, paste it above. It is stored only in this browser and sent only to api.github.com.</li></ol>
+<p>Prefer not to use a token? Open the <a id="alt" href="https://github.com/girimohan/ytpulse/actions/workflows/analyze.yml" target="_blank" rel="noopener">Actions page</a> and press "Run workflow".</p></details></div>
+<p style="margin:8px 0 0"><a id="forget" href="#" hidden onclick="return false" class="sub">Remove saved token</a></p>
+<div id="status" class="note" hidden role="status"></div></section>
+<h2>Reports</h2><div class='grid'><a class='rcard' href='TlyiwGr4Fc4/report.html'><span class='chip '>Mixed, no clear lean</span><h3>‘प्रधानमन्त्री बालेनले पुरानो ब्यागेज नबोकी नेपाल-भारत सम्बन्ध रिसेट गर्नुपर्छ’- अरुणकुमार सुवेदी</h3><div class='sub'>Tikaram Yatri</div><div class="bar" role="img" aria-label="positive 32%, neutral 48%, negative 20%"><span class="p" style="width:32%"></span><span class="u" style="width:48%"></span><span class="n" style="width:20%"></span></div><div class='sub'>32% positive · 20% negative · net +12<br>109 comments · 2026-11-23</div></a></div>
+<footer>Reports are samples of comments scored by software, not polls of the public.</footer></main>
+<script>(function(){
+var root=document.getElementById('analyze'),repo=root.dataset.repo;
+if(!repo){var o=location.hostname.split('.')[0],r=location.pathname.split('/')[1];repo=o+'/'+r}
+var API='https://api.github.com/repos/'+repo,KEY='ytpulse_gh_token';
+var $=function(id){return document.getElementById(id)},status=$('status'),form=$('form'),tokBox=$('tokbox');
+function tok(){try{return localStorage.getItem(KEY)||''}catch(e){return ''}}
+function setTok(v){try{v?localStorage.setItem(KEY,v):localStorage.removeItem(KEY)}catch(e){}}
+function say(t,cls){status.className='note '+(cls||'');status.textContent=t;status.hidden=false}
+function vid(u){var m=u.match(/(?:v=|youtu\.be\/|\/live\/|\/shorts\/|\/embed\/)([\w-]{11})/);return m?m[1]:(/^[\w-]{11}$/.test(u.trim())?u.trim():'')}
+function hdr(){return{'Authorization':'Bearer '+tok(),'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}}
+function refreshTok(){var has=!!tok();if(has)tokBox.hidden=true;$('forget').hidden=!has}
+refreshTok();
+$('savetok').addEventListener('click',function(){var v=$('tok').value.trim();if(v){setTok(v);$('tok').value='';refreshTok();say('Token saved in this browser. Press Analyze.')}});
+$('forget').addEventListener('click',function(){setTok('');refreshTok();say('Token removed from this browser.')});
+function sleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
+async function waitReport(id){for(var i=0;i<30;i++){try{var r=await fetch(id+'/report.html',{method:'HEAD',cache:'no-store'});if(r.ok)return true}catch(e){}await sleep(10000)}return false}
+form.addEventListener('submit',async function(ev){
+ ev.preventDefault();var url=$('url').value.trim(),id=vid(url);
+ if(!id){say('That does not look like a YouTube link.','bad');return}
+ if(!tok()){tokBox.hidden=false;say('One-time setup: paste a GitHub token below (steps shown), then press Analyze again.');return}
+ var go=$('go');go.disabled=true;var t0=Date.now()-60000;
+ try{
+  var r=await fetch(API+'/actions/workflows/analyze.yml/dispatches',{method:'POST',headers:hdr(),
+   body:JSON.stringify({ref:'main',inputs:{url:url,max_comments:$('max').value,publish:'true'}})});
+  if(r.status===401||r.status===403||r.status===404){say('GitHub refused the request ('+r.status+'). The token needs Actions: Read and write on '+repo+'.','bad');go.disabled=false;return}
+  if(r.status!==204){say('Could not start the analysis (HTTP '+r.status+').','bad');go.disabled=false;return}
+  say('Started. Reading comments and scoring them takes about 3-5 minutes.');
+  var run=null;
+  for(var i=0;i<120;i++){await sleep(8000);
+   var q=await fetch(API+'/actions/workflows/analyze.yml/runs?event=workflow_dispatch&per_page=5',{headers:hdr()});
+   if(!q.ok)continue;var j=await q.json();
+   run=(j.workflow_runs||[]).find(function(x){return new Date(x.created_at).getTime()>=t0})||null;
+   if(run){say('Status: '+(run.status==='completed'?run.conclusion:run.status.replace('_',' '))+' ...');if(run.status==='completed')break}}
+  if(!run||run.conclusion!=='success'){say('The run did not succeed. Open the run to see why.','bad');
+   if(run){var a=document.createElement('a');a.href=run.html_url;a.textContent=' View run';a.target='_blank';status.appendChild(a)}go.disabled=false;return}
+  say('Analysis done. Publishing the page (about a minute) ...');
+  if(await waitReport(id)){say('Ready.','ok');var l=document.createElement('a');l.href=id+'/report.html';l.className='btn';l.textContent='Open report';l.style.marginLeft='10px';status.appendChild(l)}
+  else say('Finished, but the page is not live yet. Reload this page in a minute.');
+ }catch(err){say('Network error: '+err.message,'bad')}
+ go.disabled=false});
+})();</script></body></html>
