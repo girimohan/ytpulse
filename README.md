@@ -45,6 +45,19 @@ Devanagari and Latin spellings). Add the guest and topics of the video you are a
 names" section suggests candidates you have not listed yet. After editing, rebuild with
 `python -m ytpulse report --db data/<id>.db --reenrich`.
 
+### From GitHub (no setup on your machine)
+
+1. Repo **Settings > Secrets and variables > Actions > New repository secret**: name `YOUTUBE_API_KEY`, value your key.
+2. **Settings > Pages**: Source = *Deploy from a branch*, branch `gh-pages`, folder `/ (root)` (the branch appears after the
+   first run; GitHub Pages on a private repo needs a paid plan, otherwise make the repo public or just use the download).
+3. **Actions > analyze > Run workflow**, paste the link. When it finishes (about 5 minutes) the run page shows a
+   short summary with a link to the full report; the same files are attached as the `report` artifact (zip with
+   `report.html` and `cards/*.png`) to download and post.
+
+Reports are published at `https://<user>.github.io/<repo>/<video_id>/report.html`, with an index at the root.
+Untick *publish* to keep a report as a download only. The workflow reads comments only (live chat needs a
+long-running local session, not a CI job).
+
 ### Lower-level commands
 
 ```powershell

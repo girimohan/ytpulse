@@ -135,7 +135,9 @@ def _net(labels: pd.Series, n_boot: int) -> dict:
 def summarize(df: pd.DataFrame, cfg: dict, matcher: EntityMatcher, meta: dict) -> dict:
     a, q = cfg["analysis"], cfg["quality"]
     df, clusters = apply_quality(df, q)
-    counted = df[df["counted"]]
+    counted = df[df["counted"]].copy()
+    # Stored rows may mention ids since removed from the name list; ignore them (re-enrich to refresh fully).
+    counted["entities"] = counted["entities"].apply(lambda L: [x for x in L if x["id"] in matcher.registry])
     n_total, n_counted = len(df), len(counted)
     t0, t1 = df["ts"].min(), df["ts"].max()
     span_min = max((t1 - t0).total_seconds() / 60, 1.0)
@@ -259,8 +261,7 @@ def _highlights(sent, entities, funnel, clusters, peaks, bucket, low_n) -> list[
     h = []
     if low_n:
         h.append(f"Small sample (n={sent['n']}): treat every number below as indicative only.")
-    h.append(f"Net sentiment {sent['net']:+.1f} (95% CI {sent['ci_low']:+.1f} to {sent['ci_high']:+.1f}) "
-             f"across {sent['n']:,} counted messages.")
+    h.append(f"Net sentiment {sent['net']:+.0f} (positive minus negative) across {sent['n']:,} counted messages.")
     people = [e for e in entities if e["type"] == "person"]
     if len(people) >= 2:
         a, b = people[0], people[1]

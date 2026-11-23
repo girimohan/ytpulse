@@ -268,11 +268,44 @@ def _table(rows: list[list], head: list[str]) -> str:
     return f"<table><thead><tr>{th}</tr></thead><tbody>{body}</tbody></table>"
 
 
-def render_html(s: dict, imgs: dict[str, bytes]) -> str:
+def _tone_word(e: dict) -> str:
+    if e["n"] < LOW_N:
+        return "too few messages to judge"
+    return "mostly positive" if e["net"] >= 10 else "mostly negative" if e["net"] <= -10 else "mixed"
+
+
+def tone_label(se: dict) -> str:
+    lo, hi = se["ci_low"], se["ci_high"]
+    return ("Positive-leaning" if lo >= 5 else "Negative-leaning" if hi <= -5 else
+            "Slightly positive" if lo > 0 else "Slightly negative" if hi < 0 else "Mixed, no clear lean")
+
+
+def _glance(s: dict) -> str:
+    """Plain-language answer first: overall tone, the split, and who/what people talked about."""
+    se, w = s["sentiment"], _words(s)
+    n = max(se["n"], 1)
+    pct = {k: round(100 * se[k] / n) for k in ("positive", "neutral", "negative")}
+    lo, hi = se["ci_low"], se["ci_high"]
+    tone = tone_label(se)
+    top = sorted((e for k in ("person", "topic") for e in s["entities"].get(k, [])), key=lambda e: -e["mentions"])[:4]
+    rows = "".join(f"<li><b>{html.escape(e['name'])}</b>: {e['mentions']:,} mentions, "
+                   f"{_tone_word(e)}</li>" for e in top)
+    talked = f"<h3>Most talked about</h3><ul>{rows}</ul>" if rows else ""
+    return f"""<section class="hero"><div class="tone">{tone}</div>
+<div class="bar" role="img" aria-label="positive {pct['positive']}%, neutral {pct['neutral']}%, negative {pct['negative']}%">
+<span class="p" style="width:{pct['positive']}%"></span><span class="u" style="width:{pct['neutral']}%"></span><span class="n" style="width:{pct['negative']}%"></span></div>
+<div class="legend"><span><i class="p"></i>Positive {pct['positive']}%</span><span><i class="u"></i>Neutral {pct['neutral']}%</span><span><i class="n"></i>Negative {pct['negative']}%</span></div>
+<p>Based on <b>{se['n']:,}</b> {w['msgs']}. Net score <b>{se['net']:+.0f}</b> (positive minus negative); the true value for
+this sample is likely between {lo:+.0f} and {hi:+.0f}.</p>{talked}
+<p class="note">This is a sample of {w['msgs']} scored by software, not a poll of the public. Sarcasm and slang are
+often misread, so treat the direction as more reliable than the exact number.</p></section>"""
+
+
+def render_html(s: dict, imgs: dict[str, bytes], cards: tuple[str, ...] = ()) -> str:
     m, se = s["meta"], s["sentiment"]
     ent_rows = lambda L: [[e["name"], e["mentions"], e["authors"], e["positive"], e["neutral"], e["negative"],
                            f"{e['net']:+.0f} ({e['ci_low']:+.0f} to {e['ci_high']:+.0f})"] for e in L]
-    head = ["Name", "Mentions", "Chatters", "Pos", "Neu", "Neg", "Net (95% CI)"]
+    head = ["Name", "Mentions", _words(s)["who"].capitalize(), "Pos", "Neu", "Neg", "Net (95% CI)"]
     sections = []
     for key, label in (("person", "People"), ("country", "Countries"), ("topic", "Topics"), ("place", "Places")):
         if s["entities"][key]:
@@ -293,6 +326,16 @@ def render_html(s: dict, imgs: dict[str, bytes]) -> str:
     clusters = _table([[c["text"][:80], c["messages"], c["authors"]] for c in s["coordinated_clusters"]],
                       ["Repeated text", "Messages", "Accounts"]) if s["coordinated_clusters"] else "<p>None detected.</p>"
     img = lambda k, alt: f"<img alt='{alt}' src='{_b64(imgs[k])}'>" if k in imgs else ""
+    glance = _glance(s)
+    share = ""
+    if cards:
+        pretty = {"summary": "Summary", "head_to_head": "Head to head", "timeline": "Timeline"}
+        items = "".join(
+            f"<figure><img alt='{pretty.get(c, c)} card' src='cards/{c}.png' loading='lazy'>"
+            f"<figcaption><a href='cards/{c}.png' download>Download {pretty.get(c, c)} (PNG)</a></figcaption></figure>"
+            for c in cards)
+        share = (f"<section><h2>Share cards</h2><p class='sub'>Ready-to-post images. Each carries the sample size "
+                 f"and a \"not a poll\" note.</p><div class='cards'>{items}</div></section>")
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>Sentiment pulse</title>
 <style>
@@ -309,20 +352,31 @@ th,td{{text-align:left;padding:6px 10px;border-bottom:1px solid var(--line);whit
 .cols{{display:grid;grid-template-columns:1fr 1fr;gap:16px}}@media(max-width:640px){{.cols{{grid-template-columns:1fr}}}}
 .demo,.warn{{padding:10px 14px;border-radius:8px;font-weight:600;margin:12px 0;border:1px solid var(--line)}}
 .demo{{background:#e34948;color:#fff}}.warn{{background:#fab219;color:#0b0b0b}}
+.hero{{padding:20px 24px}}.tone{{font-size:30px;font-weight:700;margin-bottom:12px}}
+.bar{{display:flex;height:18px;border-radius:9px;overflow:hidden;gap:2px;background:var(--line)}}
+.bar span{{display:block}}.p{{background:#2a9d6f}}.u{{background:#9a9a94}}.n{{background:#d64545}}
+.legend{{display:flex;flex-wrap:wrap;gap:6px 18px;margin:8px 0 12px;font-size:14px}}
+.legend i{{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px}}
+.note{{color:var(--ink2);font-size:13px;border-top:1px solid var(--line);padding-top:10px;margin-bottom:0}}
+.cards{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}}
+figure{{margin:0}}figcaption{{font-size:14px;margin-top:6px}}a{{color:inherit}}
+details{{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 20px;margin:12px 0}}
+summary{{cursor:pointer;font-weight:600;font-size:16px}}details[open] summary{{margin-bottom:10px}}
 </style></head><body><main>
 <h1>{html.escape(m.get('title', 'Sentiment pulse'))}</h1>
 <div class="sub">{html.escape(m.get('channel', ''))} · {html.escape(_local(m['window_start'], m.get('utc_offset_minutes', 330)))}–{html.escape(_local(m['window_end'], m.get('utc_offset_minutes', 330)))} {html.escape(m.get('timezone_label', ''))} · {s['authors']:,} {_words(s)['who']} · {html.escape(_words(s)['src'])} · model: {html.escape(str(m.get('sentiment_model', '')))}</div>
 {banner}{low}
-<section><h2>Highlights</h2><ul>{li}</ul></section>
-<section><h2>Sentiment</h2><p class="sub">Net {se['net']:+.1f} (95% CI {se['ci_low']:+.1f} to {se['ci_high']:+.1f}), n={se['n']:,}. Positive {se['positive']:,} · neutral {se['neutral']:,} · negative {se['negative']:,}.</p>{img('sentiment', 'sentiment split')}</section>
-<section><h2>Over time</h2>{img('timeline', 'volume and net sentiment over time')}</section>
-<section><h2>Names and topics</h2>{img('people', 'people sentiment')}{img('topics', 'topic sentiment')}{''.join(sections)}
-<p class="sub">Names found but not yet in the gazetteer (candidates to add): {emerging}</p></section>
-<section><h2>What people typed</h2><p><b>Top words:</b> {words}</p><p><b>Emoji:</b> {emojis}</p><p><b>Hashtags:</b> {tags}</p>
-<p><b>Languages (counted messages):</b> {html.escape(json.dumps(s['languages'], ensure_ascii=False))}</p></section>
-<section><h2>Sample messages (no usernames; review before quoting)</h2>{samples}</section>
-<section><h2>Data quality</h2>{img('funnel', 'filtering funnel')}<h3>Copy-paste clusters</h3>{clusters}</section>
-<section><h2>Method</h2><p class="sub">{html.escape(s['method'])}</p></section>
+{glance}
+{share}
+<section><h2>Key takeaways</h2><ul>{li}</ul></section>
+<details><summary>Over time</summary>{img('timeline', 'volume and net sentiment over time')}</details>
+<details><summary>Names and topics</summary>{img('people', 'people sentiment')}{img('topics', 'topic sentiment')}{''.join(sections)}
+<p class="sub">Names found but not in the name list yet (add them to <code>ytpulse/data/entities.yaml</code>): {emerging}</p></details>
+<details><summary>What people typed</summary><p><b>Top words:</b> {words}</p><p><b>Emoji:</b> {emojis}</p><p><b>Hashtags:</b> {tags}</p>
+<p><b>Languages (counted messages):</b> {html.escape(json.dumps(s['languages'], ensure_ascii=False))}</p></details>
+<details><summary>Sample messages (no usernames; review before quoting)</summary>{samples}</details>
+<details><summary>Data quality and method</summary>{img('funnel', 'filtering funnel')}<h3>Copy-paste clusters</h3>{clusters}
+<p class="sub">{html.escape(s['method'])}</p></details>
 </main></body></html>"""
 
 
@@ -336,11 +390,14 @@ def write_report(s: dict, out_dir: str | Path) -> dict[str, Path]:
         imgs["topics"] = _png(fig_entities(s["entities"]["topic"], "Topics"))
     paths = {"json": out / "report.json", "html": out / "report.html"}
     paths["json"].write_text(json.dumps(s, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
-    paths["html"].write_text(render_html(s, imgs), encoding="utf-8")
-    cards = {"summary": card_summary(s), "timeline": card_timeline(s)}
+    cards = {"summary": card_summary(s)}
     h2h = card_h2h(s)
     if h2h:
         cards["head_to_head"] = h2h
+    cards["timeline"] = card_timeline(s)
+    paths["html"].write_text(render_html(s, imgs, tuple(cards)), encoding="utf-8")
+    for stale in (out / "cards").glob("*.png"):  # a card from an older run (e.g. head-to-head) must not linger
+        stale.unlink()
     for name, data in cards.items():
         p = out / "cards" / f"{name}.png"
         p.write_bytes(data)

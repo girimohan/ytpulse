@@ -59,7 +59,7 @@ def make_report(store: Store, cfg, matcher, video_id: str, out_dir: str, model_n
                 "timezone_label": cfg["display"]["timezone_label"]}
     else:
         meta = _video_meta(video_id, store, cfg)
-    meta["sentiment_model"] = model_name or cfg["sentiment"]["backend"]
+    meta["sentiment_model"] = store.get_meta("sentiment_model") or model_name or cfg["sentiment"]["backend"]
     meta["source_kind"] = str(df["source"].iloc[0])  # 'comment' | 'live' | ... drives wording in the cards
     s = summarize(df, cfg, matcher, meta)
     paths = write_report(s, out_dir)
@@ -161,6 +161,18 @@ def cmd_analyze(a) -> int:
     elif rc == 0:
         print("No messages were collected (comments disabled, or nothing posted yet).")
     return rc
+
+
+def cmd_summary(a) -> int:
+    from .publish import summary_markdown
+    print(summary_markdown(Path(a.report_dir) / "report.json", a.url))
+    return 0
+
+
+def cmd_site_index(a) -> int:
+    from .publish import build_index
+    print(build_index(a.site_dir))
+    return 0
 
 
 def cmd_purge(a) -> int:
@@ -278,6 +290,14 @@ def build_parser() -> argparse.ArgumentParser:
     pg.add_argument("--days", type=int, default=30)
     pg.add_argument("--yes", action="store_true", help="actually delete (default is a dry run)")
     pg.set_defaults(fn=cmd_purge)
+
+    sm = sub.add_parser("summary", help="print a short markdown summary of a finished report (used by CI)")
+    sm.add_argument("report_dir"), sm.add_argument("--url", default="")
+    sm.set_defaults(fn=cmd_summary)
+
+    ix = sub.add_parser("site-index", help="(re)build index.html for a folder of published reports (used by CI)")
+    ix.add_argument("site_dir")
+    ix.set_defaults(fn=cmd_site_index)
 
     r = sub.add_parser("run", help="ingest + enrich + report (live or one-shot)")
     common(r)

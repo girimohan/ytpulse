@@ -99,6 +99,7 @@ def enrich_pending(store: Store, enricher: Enricher, batch: int = 500) -> int:
         if not rows:
             return done
         store.save_enriched(enricher.enrich(rows))
+        store.set_meta("sentiment_model", enricher.model.name)  # so later rebuilds report the real scorer
         done += len(rows)
 
 

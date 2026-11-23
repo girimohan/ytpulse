@@ -97,3 +97,26 @@ def test_purge_is_dry_run_by_default_and_spares_demo(env, capsys):
     assert cli.main(["purge", "--yes"]) == 0
     assert not old.exists() and not (env / "reports" / "old").exists()
     assert fresh.exists() and demo.exists()
+
+
+def test_summary_and_site_index(env, capsys):
+    assert cli.main(["demo"]) == 0
+    capsys.readouterr()
+    assert cli.main(["summary", "reports/demo", "--url", "https://x.example/r"]) == 0
+    md = capsys.readouterr().out
+    assert "Open the full report" in md and "https://x.example/r" in md and "not a poll" in md
+
+    site = env / "site"
+    (site / "demo").mkdir(parents=True)
+    for f in ("report.json",):
+        (site / "demo" / f).write_bytes((env / "reports" / "demo" / f).read_bytes())
+    assert cli.main(["site-index", "site"]) == 0
+    index = (site / "index.html").read_text(encoding="utf-8")
+    assert "demo/report.html" in index and (site / ".nojekyll").exists()
+
+
+def test_report_has_plain_language_header_and_share_cards(env):
+    assert cli.main(["demo"]) == 0
+    page = (env / "reports" / "demo" / "report.html").read_text(encoding="utf-8")
+    assert "class=\"tone\"" in page and "Share cards" in page and "cards/summary.png" in page
+    assert "not a poll" in page

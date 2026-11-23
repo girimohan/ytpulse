@@ -1,0 +1,109 @@
+name: analyze
+# Run from the repo's Actions tab: "analyze" -> "Run workflow" -> paste a YouTube link.
+# Needs the repository secret YOUTUBE_API_KEY (Settings -> Secrets and variables -> Actions).
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: YouTube video link
+        required: true
+        type: string
+      max_comments:
+        description: Max comments to read
+        type: choice
+        options: ["1000", "3000", "5000"]
+        default: "3000"
+      publish:
+        description: Publish the report to the GitHub Pages site (needs Pages enabled)
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: analyze-publish
+  cancel-in-progress: false
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+      VIDEO_URL: ${{ inputs.url }}
+      MAX_COMMENTS: ${{ inputs.max_comments }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Cache sentiment model
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: hf-cardiffnlp-xlm-roberta-sentiment-v1
+
+      - name: Install (CPU-only torch)
+        run: |
+          pip install --quiet torch --index-url https://download.pytorch.org/whl/cpu
+          pip install --quiet -e ".[ml]"
+
+      - name: Check API key
+        run: |
+          if [ -z "$YOUTUBE_API_KEY" ]; then
+            echo "::error::Repository secret YOUTUBE_API_KEY is not set (Settings > Secrets and variables > Actions)."
+            exit 1
+          fi
+
+      - name: Analyze
+        run: python -m ytpulse analyze "$VIDEO_URL" --comments --max-comments "$MAX_COMMENTS" --no-open --backend hybrid
+
+      - name: Find report
+        id: rep
+        run: |
+          DIR=$(dirname "$(ls reports/*/report.json | head -n1)")
+          echo "dir=$DIR" >> "$GITHUB_OUTPUT"
+          echo "id=$(basename "$DIR")" >> "$GITHUB_OUTPUT"
+
+      - name: Run summary
+        env:
+          PAGE_URL: ${{ inputs.publish && format('https://{0}.github.io/{1}/{2}/report.html', github.repository_owner, github.event.repository.name, steps.rep.outputs.id) || '' }}
+        run: python -m ytpulse summary "${{ steps.rep.outputs.dir }}" --url "$PAGE_URL" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload report (download from the run page)
+        uses: actions/upload-artifact@v4
+        with:
+          name: report
+          path: ${{ steps.rep.outputs.dir }}
+          retention-days: 30
+
+      - name: Publish to GitHub Pages branch
+        if: ${{ inputs.publish }}
+        env:
+          VID: ${{ steps.rep.outputs.id }}
+          DIR: ${{ steps.rep.outputs.dir }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin gh-pages >/dev/null 2>&1; then
+            git fetch origin gh-pages
+            git worktree add site origin/gh-pages
+            (cd site && git checkout -B gh-pages)
+          else
+            git worktree add --detach site
+            (cd site && git checkout --orphan gh-pages && git rm -rfq . )
+          fi
+          rm -rf "site/$VID"
+          mkdir -p "site/$VID"
+          cp -r "$DIR"/. "site/$VID/"
+          python -m ytpulse site-index site
+          cd site
+          git add -A
+          git commit -m "Report for $VID" || echo "nothing to commit"
+          git push origin gh-pages
+          echo "Published: https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/$VID/report.html"
