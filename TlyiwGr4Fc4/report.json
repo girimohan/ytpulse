@@ -1,0 +1,473 @@
+{
+  "meta": {
+    "video_id": "TlyiwGr4Fc4",
+    "url": "https://www.youtube.com/watch?v=TlyiwGr4Fc4",
+    "title": "‘प्रधानमन्त्री बालेनले पुरानो ब्यागेज नबोकी नेपाल-भारत सम्बन्ध रिसेट गर्नुपर्छ’- अरुणकुमार सुवेदी",
+    "channel": "Tikaram Yatri",
+    "utc_offset_minutes": 330,
+    "timezone_label": "IST",
+    "sentiment_model": "hybrid(cardiffnlp/twitter-xlm-roberta-base-sentiment+lexicon-v1)",
+    "source_kind": "comment",
+    "synthetic": false,
+    "generated_at": "2026-11-23T08:40:42+00:00",
+    "window_start": "2026-11-22T15:58:18+00:00",
+    "window_end": "2026-11-23T08:39:44+00:00",
+    "span_minutes": 1001.4,
+    "bucket_minutes": 30,
+    "low_sample": false
+  },
+  "funnel": {
+    "total": 112,
+    "empty": 0,
+    "spam": 3,
+    "flood": 0,
+    "self_dupe": 0,
+    "coordinated": 0,
+    "counted": 109
+  },
+  "authors": 88,
+  "sentiment": {
+    "positive": 35,
+    "neutral": 52,
+    "negative": 22,
+    "n": 109,
+    "net": 11.9,
+    "ci_low": -0.9,
+    "ci_high": 25.7,
+    "mean_score": 0.075,
+    "net_incl_repeats": 11.9
+  },
+  "entities": {
+    "person": [
+      {
+        "id": "balen",
+        "name": "Balendra Shah (Balen)",
+        "type": "person",
+        "mentions": 10,
+        "authors": 10,
+        "positive": 1,
+        "neutral": 6,
+        "negative": 3,
+        "net": -20.0,
+        "ci_low": -60.0,
+        "ci_high": 20.0,
+        "n": 10,
+        "share_of_voice": 100.0
+      }
+    ],
+    "country": [
+      {
+        "id": "nepal",
+        "name": "Nepal",
+        "type": "country",
+        "mentions": 12,
+        "authors": 12,
+        "positive": 3,
+        "neutral": 4,
+        "negative": 5,
+        "net": -16.7,
+        "ci_low": -58.3,
+        "ci_high": 25.0,
+        "n": 12,
+        "share_of_voice": null
+      },
+      {
+        "id": "india",
+        "name": "India",
+        "type": "country",
+        "mentions": 4,
+        "authors": 4,
+        "positive": 1,
+        "neutral": 1,
+        "negative": 2,
+        "net": -25.0,
+        "ci_low": -100.0,
+        "ci_high": 75.0,
+        "n": 4,
+        "share_of_voice": null
+      }
+    ],
+    "place": [],
+    "topic": []
+  },
+  "co_mentions": [],
+  "timeline": [
+    {
+      "t": "2026-11-22T15:58:18+00:00",
+      "volume": 7,
+      "counted": 6,
+      "net": 0.0
+    },
+    {
+      "t": "2026-11-22T16:28:18+00:00",
+      "volume": 5,
+      "counted": 5,
+      "net": 20.0
+    },
+    {
+      "t": "2026-11-22T16:58:18+00:00",
+      "volume": 9,
+      "counted": 9,
+      "net": 0.0
+    },
+    {
+      "t": "2026-11-22T17:28:18+00:00",
+      "volume": 6,
+      "counted": 6,
+      "net": 66.7
+    },
+    {
+      "t": "2026-11-22T17:58:18+00:00",
+      "volume": 5,
+      "counted": 4,
+      "net": null
+    },
+    {
+      "t": "2026-11-22T18:28:18+00:00",
+      "volume": 3,
+      "counted": 3,
+      "net": null
+    },
+    {
+      "t": "2026-11-22T18:58:18+00:00",
+      "volume": 8,
+      "counted": 8,
+      "net": 37.5
+    },
+    {
+      "t": "2026-11-22T19:28:18+00:00",
+      "volume": 0,
+      "counted": 0,
+      "net": null
+    },
+    {
+      "t": "2026-11-22T19:58:18+00:00",
+      "volume": 1,
+      "counted": 1,
+      "net": null
+    },
+    {
+      "t": "2026-11-22T20:28:18+00:00",
+      "volume": 1,
+      "counted": 1,
+      "net": null
+    },
+    {
+      "t": "2026-11-22T20:58:18+00:00",
+      "volume": 2,
+      "counted": 2,
+      "net": null
+    },
+    {
+      "t": "2026-11-22T21:28:18+00:00",
+      "volume": 0,
+      "counted": 0,
+      "net": null
+    },
+    {
+      "t": "2026-11-22T21:58:18+00:00",
+      "volume": 6,
+      "counted": 6,
+      "net": 0.0
+    },
+    {
+      "t": "2026-11-22T22:28:18+00:00",
+      "volume": 5,
+      "counted": 5,
+      "net": 0.0
+    },
+    {
+      "t": "2026-11-22T22:58:18+00:00",
+      "volume": 1,
+      "counted": 1,
+      "net": null
+    },
+    {
+      "t": "2026-11-22T23:28:18+00:00",
+      "volume": 3,
+      "counted": 3,
+      "net": null
+    },
+    {
+      "t": "2026-11-22T23:58:18+00:00",
+      "volume": 2,
+      "counted": 2,
+      "net": null
+    },
+    {
+      "t": "2026-11-23T00:28:18+00:00",
+      "volume": 2,
+      "counted": 2,
+      "net": null
+    },
+    {
+      "t": "2026-11-23T00:58:18+00:00",
+      "volume": 6,
+      "counted": 6,
+      "net": 50.0
+    },
+    {
+      "t": "2026-11-23T01:28:18+00:00",
+      "volume": 8,
+      "counted": 8,
+      "net": 50.0
+    },
+    {
+      "t": "2026-11-23T01:58:18+00:00",
+      "volume": 2,
+      "counted": 2,
+      "net": null
+    },
+    {
+      "t": "2026-11-23T02:28:18+00:00",
+      "volume": 1,
+      "counted": 1,
+      "net": null
+    },
+    {
+      "t": "2026-11-23T02:58:18+00:00",
+      "volume": 4,
+      "counted": 4,
+      "net": null
+    },
+    {
+      "t": "2026-11-23T03:28:18+00:00",
+      "volume": 5,
+      "counted": 5,
+      "net": 0.0
+    },
+    {
+      "t": "2026-11-23T03:58:18+00:00",
+      "volume": 3,
+      "counted": 3,
+      "net": null
+    },
+    {
+      "t": "2026-11-23T04:28:18+00:00",
+      "volume": 3,
+      "counted": 3,
+      "net": null
+    },
+    {
+      "t": "2026-11-23T04:58:18+00:00",
+      "volume": 1,
+      "counted": 1,
+      "net": null
+    },
+    {
+      "t": "2026-11-23T05:28:18+00:00",
+      "volume": 1,
+      "counted": 0,
+      "net": null
+    },
+    {
+      "t": "2026-11-23T05:58:18+00:00",
+      "volume": 3,
+      "counted": 3,
+      "net": null
+    },
+    {
+      "t": "2026-11-23T06:28:18+00:00",
+      "volume": 1,
+      "counted": 1,
+      "net": null
+    },
+    {
+      "t": "2026-11-23T06:58:18+00:00",
+      "volume": 1,
+      "counted": 1,
+      "net": null
+    },
+    {
+      "t": "2026-11-23T07:28:18+00:00",
+      "volume": 3,
+      "counted": 3,
+      "net": null
+    },
+    {
+      "t": "2026-11-23T07:58:18+00:00",
+      "volume": 1,
+      "counted": 1,
+      "net": null
+    },
+    {
+      "t": "2026-11-23T08:28:18+00:00",
+      "volume": 3,
+      "counted": 3,
+      "net": null
+    }
+  ],
+  "peaks": [
+    {
+      "t": "2026-11-22T16:58:18+00:00",
+      "volume": 9,
+      "counted": 9,
+      "net": 0.0
+    },
+    {
+      "t": "2026-11-22T18:58:18+00:00",
+      "volume": 8,
+      "counted": 8,
+      "net": 37.5
+    },
+    {
+      "t": "2026-11-23T01:28:18+00:00",
+      "volume": 8,
+      "counted": 8,
+      "net": 50.0
+    }
+  ],
+  "languages": {
+    "en": 36,
+    "rom": 27,
+    "ne": 22,
+    "hi": 14,
+    "emoji": 7,
+    "other": 2,
+    "mixed": 1
+  },
+  "top_words": [
+    [
+      "arun",
+      10
+    ],
+    [
+      "tikaram",
+      8
+    ],
+    [
+      "हो",
+      7
+    ],
+    [
+      "kura",
+      7
+    ],
+    [
+      "sir",
+      6
+    ],
+    [
+      "good",
+      6
+    ],
+    [
+      "देश",
+      5
+    ],
+    [
+      "haru",
+      5
+    ],
+    [
+      "desh",
+      5
+    ],
+    [
+      "dalal",
+      5
+    ],
+    [
+      "analysis",
+      4
+    ],
+    [
+      "guard",
+      4
+    ],
+    [
+      "subedi",
+      4
+    ],
+    [
+      "girija",
+      4
+    ],
+    [
+      "राम्रो",
+      4
+    ]
+  ],
+  "top_emojis": [
+    [
+      "🙏",
+      10
+    ],
+    [
+      "❤",
+      6
+    ],
+    [
+      "😊",
+      4
+    ],
+    [
+      "😂",
+      4
+    ],
+    [
+      "😮",
+      3
+    ],
+    [
+      "👏",
+      3
+    ],
+    [
+      "🏻",
+      3
+    ],
+    [
+      "🇳🇵",
+      2
+    ],
+    [
+      "😢",
+      2
+    ],
+    [
+      "🎉",
+      2
+    ]
+  ],
+  "top_hashtags": [],
+  "emerging_names": [],
+  "coordinated_clusters": [],
+  "samples": {
+    "Balendra Shah (Balen)": {
+      "positive": [
+        "यो यात्री 100% ओलि को केटो हो । यस्लाइ बालेन रबि पटक्कै मन पर्दैन । अरुले हेर्दा राम्रो देखिन खोज्ने, मीठो बोलेको देखाउने, चाकडी र चाप्लुसी का माहिर हुन यिनी ।।",
+        "E sabai bharstchari apradhi dalal desh dorohi lutera gadar bichuliya rastgati haru sanga Kin sallaa line thik gare balen le",
+        "जे होस बुढालाइ बालेन ले ललिपप ख्वाइसकेछ"
+      ],
+      "negative": [
+        "बालेनलाई दिल्लीले मुर्गा बनाएर पठाउने छ । कुनै नयाँ एयररूट दिने छैन , आश्वासनको पोको बाँधेर पठाउने छ । नेपालले केही गुमाउन न परोस् , एही कामना गरौं ।",
+        "जे होस बुढालाइ बालेन ले ललिपप ख्वाइसकेछ",
+        "E sabai bharstchari apradhi dalal desh dorohi lutera gadar bichuliya rastgati haru sanga Kin sallaa line thik gare balen le"
+      ]
+    }
+  },
+  "overall_samples": {
+    "positive": [
+      "He sounds so mature so he could be one of the top geo-political analysts ! Im glad that, you brought him as a guest.",
+      "Guard of honor is a pride and privilege of a sovereign State.",
+      "यत्तिको बुझ्ने र सबैलाई बुजाउन सक्नु वहाँको कुरा सुनेर धेरै खुसी लाग्यो 🙏🙏"
+    ],
+    "negative": [
+      "Why does he think himself as GOD?",
+      "दु:खद त गिरिजा फिरिजा काम छैन",
+      "समग्रमा irritate कसलाई हुन्छ? समानताको आधारमा सम्बन्ध राख्दा के हुन्छ ? समाजवाददेखि यिनीलाई किन irritate भएको हो ? यी नबुझी यिनका कुरा पत्ताउन गाह्रो हुन्छ।"
+    ]
+  },
+  "superchats": {
+    "count": 0,
+    "amounts": []
+  },
+  "highlights": [
+    "Net sentiment +12 (positive minus negative) across 109 counted messages.",
+    "Balendra Shah (Balen) was mentioned 10 times (net -20).",
+    "3% of raw messages were filtered (spam 3, flooding 0, repeats 0, copy-paste 0).",
+    "Activity peaked in the 30-minute window starting 16:58 UTC (9 messages)."
+  ],
+  "method": "Counts are of messages (live chat or comments, per the source) after removing empty, spam, flooding, repeated and copy-paste messages. Chat participants are not a representative sample of the public. Net sentiment = %positive - %negative, with a bootstrap 95% interval."
+}
