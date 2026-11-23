@@ -171,7 +171,7 @@ def cmd_summary(a) -> int:
 
 def cmd_site_index(a) -> int:
     from .publish import build_index
-    print(build_index(a.site_dir))
+    print(build_index(a.site_dir, a.repo))
     return 0
 
 
@@ -296,7 +296,7 @@ def build_parser() -> argparse.ArgumentParser:
     sm.set_defaults(fn=cmd_summary)
 
     ix = sub.add_parser("site-index", help="(re)build index.html for a folder of published reports (used by CI)")
-    ix.add_argument("site_dir")
+    ix.add_argument("site_dir"), ix.add_argument("--repo", default="", help="owner/name, for the Analyze form")
     ix.set_defaults(fn=cmd_site_index)
 
     r = sub.add_parser("run", help="ingest + enrich + report (live or one-shot)")

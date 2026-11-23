@@ -101,7 +101,7 @@ jobs:
           rm -rf "site/$VID"
           mkdir -p "site/$VID"
           cp -r "$DIR"/. "site/$VID/"
-          python -m ytpulse site-index site
+          python -m ytpulse site-index site --repo "$GITHUB_REPOSITORY"
           cd site
           git add -A
           git commit -m "Report for $VID" || echo "nothing to commit"

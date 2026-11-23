@@ -1,7 +1,6 @@
 """Helpers used by the GitHub Actions workflow: a short run summary and a Pages index of reports."""
 from __future__ import annotations
 
-import html
 import json
 from pathlib import Path
 
@@ -32,29 +31,19 @@ def summary_markdown(report_json: str | Path, page_url: str = "") -> str:
     return "\n".join(lines) + "\n"
 
 
-def build_index(site_dir: str | Path) -> Path:
+def build_index(site_dir: str | Path, repo: str = "") -> Path:
     """Write site_dir/index.html listing every <video_id>/report.json, newest first."""
+    from .web import _chip_class, _split, render_index
     site = Path(site_dir)
     items = []
     for js in site.glob("*/report.json"):
         s = json.loads(js.read_text(encoding="utf-8"))
-        items.append((s["meta"]["generated_at"], js.parent.name, s))
-    items.sort(reverse=True)
-    rows = "".join(
-        f"<li><a href='{html.escape(vid)}/report.html'>{html.escape(s['meta']['title'])}</a>"
-        f"<span>{html.escape(tone_label(s['sentiment']))} · net {s['sentiment']['net']:+.0f} · "
-        f"n={s['sentiment']['n']:,} · {html.escape(gen[:10])}</span></li>"
-        for gen, vid, s in items)
+        se, m = s["sentiment"], s["meta"]
+        items.append({"gen": m["generated_at"], "id": js.parent.name, "title": m["title"], "channel": m.get("channel", ""),
+                      "tone": tone_label(se), "chip": _chip_class(se), "pct": _split(se), "net": se["net"], "n": se["n"],
+                      "msgs": "comments" if m.get("source_kind") == "comment" else "messages", "date": m["generated_at"][:10]})
+    items.sort(key=lambda x: x["gen"], reverse=True)
     out = site / "index.html"
-    out.write_text(f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>Sentiment reports</title>
-<style>:root{{--bg:#f9f9f7;--ink:#0b0b0b;--ink2:#52514e;--line:#e1e0d9}}
-@media(prefers-color-scheme:dark){{:root{{--bg:#0d0d0d;--ink:#f0efec;--ink2:#c3c2b7;--line:#2c2c2a}}}}
-body{{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,"Segoe UI","Nirmala UI",sans-serif}}
-main{{max-width:760px;margin:0 auto;padding:24px 16px 64px}}h1{{font-size:24px}}
-ul{{list-style:none;padding:0}}li{{padding:12px 0;border-bottom:1px solid var(--line)}}
-a{{color:inherit;font-weight:600}}span{{display:block;color:var(--ink2);font-size:14px}}</style></head>
-<body><main><h1>Sentiment reports</h1>{'<ul>' + rows + '</ul>' if rows else '<p>No reports yet.</p>'}</main></body></html>""",
-                   encoding="utf-8")
+    out.write_text(render_index(items, repo), encoding="utf-8")
     (site / ".nojekyll").write_text("", encoding="utf-8")
     return out

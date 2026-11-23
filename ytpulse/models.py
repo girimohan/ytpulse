@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
@@ -24,7 +25,10 @@ def to_utc_iso(value: str | datetime) -> str:
     if isinstance(value, datetime):
         dt = value
     else:
-        dt = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        value = value.strip().replace("Z", "+00:00")
+        # Python < 3.11 only accepts 3 or 6 fractional digits; YouTube may send 1-9.
+        value = re.sub(r"\.(\d+)", lambda m: "." + m.group(1)[:6].ljust(6, "0"), value, count=1)
+        dt = datetime.fromisoformat(value)
     if dt.tzinfo is None:
         dt = dt.replace(tzinfo=timezone.utc)
     return dt.astimezone(timezone.utc).isoformat(timespec="milliseconds")

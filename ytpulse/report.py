@@ -280,106 +280,6 @@ def tone_label(se: dict) -> str:
             "Slightly positive" if lo > 0 else "Slightly negative" if hi < 0 else "Mixed, no clear lean")
 
 
-def _glance(s: dict) -> str:
-    """Plain-language answer first: overall tone, the split, and who/what people talked about."""
-    se, w = s["sentiment"], _words(s)
-    n = max(se["n"], 1)
-    pct = {k: round(100 * se[k] / n) for k in ("positive", "neutral", "negative")}
-    lo, hi = se["ci_low"], se["ci_high"]
-    tone = tone_label(se)
-    top = sorted((e for k in ("person", "topic") for e in s["entities"].get(k, [])), key=lambda e: -e["mentions"])[:4]
-    rows = "".join(f"<li><b>{html.escape(e['name'])}</b>: {e['mentions']:,} mentions, "
-                   f"{_tone_word(e)}</li>" for e in top)
-    talked = f"<h3>Most talked about</h3><ul>{rows}</ul>" if rows else ""
-    return f"""<section class="hero"><div class="tone">{tone}</div>
-<div class="bar" role="img" aria-label="positive {pct['positive']}%, neutral {pct['neutral']}%, negative {pct['negative']}%">
-<span class="p" style="width:{pct['positive']}%"></span><span class="u" style="width:{pct['neutral']}%"></span><span class="n" style="width:{pct['negative']}%"></span></div>
-<div class="legend"><span><i class="p"></i>Positive {pct['positive']}%</span><span><i class="u"></i>Neutral {pct['neutral']}%</span><span><i class="n"></i>Negative {pct['negative']}%</span></div>
-<p>Based on <b>{se['n']:,}</b> {w['msgs']}. Net score <b>{se['net']:+.0f}</b> (positive minus negative); the true value for
-this sample is likely between {lo:+.0f} and {hi:+.0f}.</p>{talked}
-<p class="note">This is a sample of {w['msgs']} scored by software, not a poll of the public. Sarcasm and slang are
-often misread, so treat the direction as more reliable than the exact number.</p></section>"""
-
-
-def render_html(s: dict, imgs: dict[str, bytes], cards: tuple[str, ...] = ()) -> str:
-    m, se = s["meta"], s["sentiment"]
-    ent_rows = lambda L: [[e["name"], e["mentions"], e["authors"], e["positive"], e["neutral"], e["negative"],
-                           f"{e['net']:+.0f} ({e['ci_low']:+.0f} to {e['ci_high']:+.0f})"] for e in L]
-    head = ["Name", "Mentions", _words(s)["who"].capitalize(), "Pos", "Neu", "Neg", "Net (95% CI)"]
-    sections = []
-    for key, label in (("person", "People"), ("country", "Countries"), ("topic", "Topics"), ("place", "Places")):
-        if s["entities"][key]:
-            sections.append(f"<h3>{label}</h3>{_table(ent_rows(s['entities'][key]), head)}")
-    samples = ""
-    for name, d in s["samples"].items():
-        pos = "".join(f"<li>{html.escape(t)}</li>" for t in d["positive"])
-        neg = "".join(f"<li>{html.escape(t)}</li>" for t in d["negative"])
-        samples += f"<h4>{html.escape(name)}</h4><div class='cols'><div><b>Most positive</b><ul>{pos}</ul></div><div><b>Most negative</b><ul>{neg}</ul></div></div>"
-    banner = ("<div class='demo'>DEMO DATA: synthetic messages. Do not publish these numbers.</div>"
-              if m.get("synthetic") else "")
-    low = "<div class='warn'>Small sample: numbers are indicative only.</div>" if m.get("low_sample") else ""
-    li = "".join(f"<li>{html.escape(x)}</li>" for x in s["highlights"])
-    words = ", ".join(f"{html.escape(w)} ({c})" for w, c in s["top_words"][:15])
-    emojis = " ".join(f"{html.escape(e)}×{c}" for e, c in s["top_emojis"])
-    tags = ", ".join(f"{html.escape(t)} ({c})" for t, c in s["top_hashtags"]) or "none"
-    emerging = ", ".join(f"{html.escape(n)} ({c})" for n, c in s["emerging_names"]) or "none"
-    clusters = _table([[c["text"][:80], c["messages"], c["authors"]] for c in s["coordinated_clusters"]],
-                      ["Repeated text", "Messages", "Accounts"]) if s["coordinated_clusters"] else "<p>None detected.</p>"
-    img = lambda k, alt: f"<img alt='{alt}' src='{_b64(imgs[k])}'>" if k in imgs else ""
-    glance = _glance(s)
-    share = ""
-    if cards:
-        pretty = {"summary": "Summary", "head_to_head": "Head to head", "timeline": "Timeline"}
-        items = "".join(
-            f"<figure><img alt='{pretty.get(c, c)} card' src='cards/{c}.png' loading='lazy'>"
-            f"<figcaption><a href='cards/{c}.png' download>Download {pretty.get(c, c)} (PNG)</a></figcaption></figure>"
-            for c in cards)
-        share = (f"<section><h2>Share cards</h2><p class='sub'>Ready-to-post images. Each carries the sample size "
-                 f"and a \"not a poll\" note.</p><div class='cards'>{items}</div></section>")
-    return f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>Sentiment pulse</title>
-<style>
-:root{{--bg:#f9f9f7;--panel:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--line:#e1e0d9}}
-@media (prefers-color-scheme:dark){{:root:not([data-theme="light"]){{--bg:#0d0d0d;--panel:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--line:#2c2c2a}}}}
-:root[data-theme="dark"]{{--bg:#0d0d0d;--panel:#1a1a19;--ink:#f0efec;--ink2:#c3c2b7;--line:#2c2c2a}}
-body{{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI","Nirmala UI",sans-serif}}
-main{{max-width:960px;margin:0 auto;padding:24px 16px 64px}}
-section{{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:16px 0}}
-h1{{font-size:24px;margin:8px 0 4px}}h2{{font-size:18px;margin:0 0 8px}}h3,h4{{margin:16px 0 6px}}
-.sub{{color:var(--ink2)}}img{{max-width:100%;height:auto;border-radius:8px}}
-table{{border-collapse:collapse;width:100%;font-size:14px;display:block;overflow-x:auto}}
-th,td{{text-align:left;padding:6px 10px;border-bottom:1px solid var(--line);white-space:nowrap}}
-.cols{{display:grid;grid-template-columns:1fr 1fr;gap:16px}}@media(max-width:640px){{.cols{{grid-template-columns:1fr}}}}
-.demo,.warn{{padding:10px 14px;border-radius:8px;font-weight:600;margin:12px 0;border:1px solid var(--line)}}
-.demo{{background:#e34948;color:#fff}}.warn{{background:#fab219;color:#0b0b0b}}
-.hero{{padding:20px 24px}}.tone{{font-size:30px;font-weight:700;margin-bottom:12px}}
-.bar{{display:flex;height:18px;border-radius:9px;overflow:hidden;gap:2px;background:var(--line)}}
-.bar span{{display:block}}.p{{background:#2a9d6f}}.u{{background:#9a9a94}}.n{{background:#d64545}}
-.legend{{display:flex;flex-wrap:wrap;gap:6px 18px;margin:8px 0 12px;font-size:14px}}
-.legend i{{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px}}
-.note{{color:var(--ink2);font-size:13px;border-top:1px solid var(--line);padding-top:10px;margin-bottom:0}}
-.cards{{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}}
-figure{{margin:0}}figcaption{{font-size:14px;margin-top:6px}}a{{color:inherit}}
-details{{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 20px;margin:12px 0}}
-summary{{cursor:pointer;font-weight:600;font-size:16px}}details[open] summary{{margin-bottom:10px}}
-</style></head><body><main>
-<h1>{html.escape(m.get('title', 'Sentiment pulse'))}</h1>
-<div class="sub">{html.escape(m.get('channel', ''))} · {html.escape(_local(m['window_start'], m.get('utc_offset_minutes', 330)))}–{html.escape(_local(m['window_end'], m.get('utc_offset_minutes', 330)))} {html.escape(m.get('timezone_label', ''))} · {s['authors']:,} {_words(s)['who']} · {html.escape(_words(s)['src'])} · model: {html.escape(str(m.get('sentiment_model', '')))}</div>
-{banner}{low}
-{glance}
-{share}
-<section><h2>Key takeaways</h2><ul>{li}</ul></section>
-<details><summary>Over time</summary>{img('timeline', 'volume and net sentiment over time')}</details>
-<details><summary>Names and topics</summary>{img('people', 'people sentiment')}{img('topics', 'topic sentiment')}{''.join(sections)}
-<p class="sub">Names found but not in the name list yet (add them to <code>ytpulse/data/entities.yaml</code>): {emerging}</p></details>
-<details><summary>What people typed</summary><p><b>Top words:</b> {words}</p><p><b>Emoji:</b> {emojis}</p><p><b>Hashtags:</b> {tags}</p>
-<p><b>Languages (counted messages):</b> {html.escape(json.dumps(s['languages'], ensure_ascii=False))}</p></details>
-<details><summary>Sample messages (no usernames; review before quoting)</summary>{samples}</details>
-<details><summary>Data quality and method</summary>{img('funnel', 'filtering funnel')}<h3>Copy-paste clusters</h3>{clusters}
-<p class="sub">{html.escape(s['method'])}</p></details>
-</main></body></html>"""
-
-
 def write_report(s: dict, out_dir: str | Path) -> dict[str, Path]:
     out = Path(out_dir)
     (out / "cards").mkdir(parents=True, exist_ok=True)
@@ -395,7 +295,8 @@ def write_report(s: dict, out_dir: str | Path) -> dict[str, Path]:
     if h2h:
         cards["head_to_head"] = h2h
     cards["timeline"] = card_timeline(s)
-    paths["html"].write_text(render_html(s, imgs, tuple(cards)), encoding="utf-8")
+    from .web import render_report  # web imports helpers from this module
+    paths["html"].write_text(render_report(s, imgs, tuple(cards)), encoding="utf-8")
     for stale in (out / "cards").glob("*.png"):  # a card from an older run (e.g. head-to-head) must not linger
         stale.unlink()
     for name, data in cards.items():

@@ -113,10 +113,19 @@ def test_summary_and_site_index(env, capsys):
     assert cli.main(["site-index", "site"]) == 0
     index = (site / "index.html").read_text(encoding="utf-8")
     assert "demo/report.html" in index and (site / ".nojekyll").exists()
+    assert "Analyze a video" in index and "api.github.com" in index
 
 
 def test_report_has_plain_language_header_and_share_cards(env):
     assert cli.main(["demo"]) == 0
     page = (env / "reports" / "demo" / "report.html").read_text(encoding="utf-8")
-    assert "class=\"tone\"" in page and "Share cards" in page and "cards/summary.png" in page
+    assert "class=\"chip" in page and "Share cards" in page and "cards/summary.png" in page
+    assert "role='tab'" in page and "../" in page
     assert "not a poll" in page
+
+
+@pytest.mark.parametrize("raw", ["2026-11-23T08:00:01.5Z", "2026-11-23T08:00:01Z", "2026-11-23T08:00:01.123456789Z",
+                                 "2026-11-23T13:30:01.25+05:30"])
+def test_timestamps_with_any_fraction_length_parse(raw):
+    from ytpulse.models import to_utc_iso
+    assert to_utc_iso(raw).startswith("2026-11-23T0") or to_utc_iso(raw).startswith("2026-11-23T08")
