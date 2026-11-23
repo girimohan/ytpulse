@@ -1,0 +1,684 @@
+{
+  "meta": {
+    "video_id": "s99sKhp6GMg",
+    "url": "https://www.youtube.com/watch?v=s99sKhp6GMg",
+    "title": "“The Nation Speaks”With Rajendra Baniya |Gokul Prasad Baskota | Kछ Nepal | EP-18",
+    "channel": "Kछ Nepal",
+    "utc_offset_minutes": 330,
+    "timezone_label": "IST",
+    "sentiment_model": "hybrid(cardiffnlp/twitter-xlm-roberta-base-sentiment+lexicon-v1)",
+    "source_kind": "comment",
+    "synthetic": false,
+    "generated_at": "2026-11-23T09:10:18+00:00",
+    "window_start": "2026-11-22T13:06:13+00:00",
+    "window_end": "2026-11-23T09:04:38+00:00",
+    "span_minutes": 1198.4,
+    "bucket_minutes": 30,
+    "low_sample": false
+  },
+  "funnel": {
+    "total": 654,
+    "empty": 0,
+    "spam": 7,
+    "flood": 0,
+    "self_dupe": 12,
+    "coordinated": 0,
+    "counted": 635
+  },
+  "authors": 603,
+  "sentiment": {
+    "positive": 234,
+    "neutral": 264,
+    "negative": 137,
+    "n": 635,
+    "net": 15.3,
+    "ci_low": 9.8,
+    "ci_high": 20.9,
+    "mean_score": 0.088,
+    "net_incl_repeats": 15.3
+  },
+  "entities": {
+    "person": [
+      {
+        "id": "baskota",
+        "name": "Gokul Prasad Baskota",
+        "type": "person",
+        "mentions": 132,
+        "authors": 126,
+        "positive": 58,
+        "neutral": 47,
+        "negative": 27,
+        "net": 23.5,
+        "ci_low": 10.6,
+        "ci_high": 37.1,
+        "n": 132,
+        "share_of_voice": 50.0
+      },
+      {
+        "id": "baniya",
+        "name": "Rajendra Baniya (host)",
+        "type": "person",
+        "mentions": 100,
+        "authors": 100,
+        "positive": 43,
+        "neutral": 44,
+        "negative": 13,
+        "net": 30.0,
+        "ci_low": 16.0,
+        "ci_high": 43.0,
+        "n": 100,
+        "share_of_voice": 37.9
+      },
+      {
+        "id": "balen",
+        "name": "Balendra Shah (Balen)",
+        "type": "person",
+        "mentions": 18,
+        "authors": 17,
+        "positive": 4,
+        "neutral": 9,
+        "negative": 5,
+        "net": -5.6,
+        "ci_low": -38.9,
+        "ci_high": 27.8,
+        "n": 18,
+        "share_of_voice": 6.8
+      },
+      {
+        "id": "oli",
+        "name": "KP Sharma Oli",
+        "type": "person",
+        "mentions": 14,
+        "authors": 14,
+        "positive": 4,
+        "neutral": 7,
+        "negative": 3,
+        "net": 7.1,
+        "ci_low": -28.7,
+        "ci_high": 42.9,
+        "n": 14,
+        "share_of_voice": 5.3
+      }
+    ],
+    "country": [
+      {
+        "id": "nepal",
+        "name": "Nepal",
+        "type": "country",
+        "mentions": 30,
+        "authors": 30,
+        "positive": 7,
+        "neutral": 11,
+        "negative": 12,
+        "net": -16.7,
+        "ci_low": -43.3,
+        "ci_high": 10.0,
+        "n": 30,
+        "share_of_voice": null
+      },
+      {
+        "id": "india",
+        "name": "India",
+        "type": "country",
+        "mentions": 4,
+        "authors": 4,
+        "positive": 0,
+        "neutral": 3,
+        "negative": 1,
+        "net": -25.0,
+        "ci_low": -75.0,
+        "ci_high": 0.0,
+        "n": 4,
+        "share_of_voice": null
+      }
+    ],
+    "place": [],
+    "topic": [
+      {
+        "id": "uml",
+        "name": "CPN-UML (एमाले)",
+        "type": "topic",
+        "mentions": 66,
+        "authors": 64,
+        "positive": 13,
+        "neutral": 19,
+        "negative": 34,
+        "net": -31.8,
+        "ci_low": -50.0,
+        "ci_high": -12.1,
+        "n": 66,
+        "share_of_voice": null
+      },
+      {
+        "id": "congress",
+        "name": "Nepali Congress",
+        "type": "topic",
+        "mentions": 9,
+        "authors": 9,
+        "positive": 1,
+        "neutral": 4,
+        "negative": 4,
+        "net": -33.3,
+        "ci_low": -66.7,
+        "ci_high": 11.1,
+        "n": 9,
+        "share_of_voice": null
+      },
+      {
+        "id": "rsp",
+        "name": "RSP (रास्वपा)",
+        "type": "topic",
+        "mentions": 8,
+        "authors": 7,
+        "positive": 1,
+        "neutral": 4,
+        "negative": 3,
+        "net": -25.0,
+        "ci_low": -62.5,
+        "ci_high": 25.0,
+        "n": 8,
+        "share_of_voice": null
+      },
+      {
+        "id": "corruption",
+        "name": "Corruption",
+        "type": "topic",
+        "mentions": 3,
+        "authors": 3,
+        "positive": 0,
+        "neutral": 0,
+        "negative": 3,
+        "net": -100.0,
+        "ci_low": -100.0,
+        "ci_high": -100.0,
+        "n": 3,
+        "share_of_voice": null
+      }
+    ]
+  },
+  "co_mentions": [
+    {
+      "a": "Rajendra Baniya (host)",
+      "b": "Gokul Prasad Baskota",
+      "messages": 22
+    },
+    {
+      "a": "Gokul Prasad Baskota",
+      "b": "KP Sharma Oli",
+      "messages": 4
+    },
+    {
+      "a": "Balendra Shah (Balen)",
+      "b": "Gokul Prasad Baskota",
+      "messages": 3
+    },
+    {
+      "a": "Rajendra Baniya (host)",
+      "b": "KP Sharma Oli",
+      "messages": 2
+    },
+    {
+      "a": "Balendra Shah (Balen)",
+      "b": "Rajendra Baniya (host)",
+      "messages": 1
+    }
+  ],
+  "timeline": [
+    {
+      "t": "2026-11-22T13:06:13+00:00",
+      "volume": 19,
+      "counted": 19,
+      "net": 31.6
+    },
+    {
+      "t": "2026-11-22T13:36:13+00:00",
+      "volume": 23,
+      "counted": 22,
+      "net": 9.1
+    },
+    {
+      "t": "2026-11-22T14:06:13+00:00",
+      "volume": 39,
+      "counted": 37,
+      "net": -10.8
+    },
+    {
+      "t": "2026-11-22T14:36:13+00:00",
+      "volume": 52,
+      "counted": 51,
+      "net": 33.3
+    },
+    {
+      "t": "2026-11-22T15:06:13+00:00",
+      "volume": 43,
+      "counted": 41,
+      "net": 9.8
+    },
+    {
+      "t": "2026-11-22T15:36:13+00:00",
+      "volume": 46,
+      "counted": 46,
+      "net": 37.0
+    },
+    {
+      "t": "2026-11-22T16:06:13+00:00",
+      "volume": 43,
+      "counted": 43,
+      "net": 11.6
+    },
+    {
+      "t": "2026-11-22T16:36:13+00:00",
+      "volume": 23,
+      "counted": 23,
+      "net": 21.7
+    },
+    {
+      "t": "2026-11-22T17:06:13+00:00",
+      "volume": 24,
+      "counted": 24,
+      "net": 12.5
+    },
+    {
+      "t": "2026-11-22T17:36:13+00:00",
+      "volume": 19,
+      "counted": 19,
+      "net": 36.8
+    },
+    {
+      "t": "2026-11-22T18:06:13+00:00",
+      "volume": 16,
+      "counted": 15,
+      "net": 46.7
+    },
+    {
+      "t": "2026-11-22T18:36:13+00:00",
+      "volume": 12,
+      "counted": 12,
+      "net": -8.3
+    },
+    {
+      "t": "2026-11-22T19:06:13+00:00",
+      "volume": 9,
+      "counted": 9,
+      "net": -11.1
+    },
+    {
+      "t": "2026-11-22T19:36:13+00:00",
+      "volume": 12,
+      "counted": 10,
+      "net": 10.0
+    },
+    {
+      "t": "2026-11-22T20:06:13+00:00",
+      "volume": 13,
+      "counted": 13,
+      "net": -15.4
+    },
+    {
+      "t": "2026-11-22T20:36:13+00:00",
+      "volume": 3,
+      "counted": 3,
+      "net": null
+    },
+    {
+      "t": "2026-11-22T21:06:13+00:00",
+      "volume": 9,
+      "counted": 9,
+      "net": 0.0
+    },
+    {
+      "t": "2026-11-22T21:36:13+00:00",
+      "volume": 9,
+      "counted": 9,
+      "net": 66.7
+    },
+    {
+      "t": "2026-11-22T22:06:13+00:00",
+      "volume": 10,
+      "counted": 10,
+      "net": 10.0
+    },
+    {
+      "t": "2026-11-22T22:36:13+00:00",
+      "volume": 8,
+      "counted": 8,
+      "net": -12.5
+    },
+    {
+      "t": "2026-11-22T23:06:13+00:00",
+      "volume": 7,
+      "counted": 7,
+      "net": 28.6
+    },
+    {
+      "t": "2026-11-22T23:36:13+00:00",
+      "volume": 6,
+      "counted": 6,
+      "net": -33.3
+    },
+    {
+      "t": "2026-11-23T00:06:13+00:00",
+      "volume": 9,
+      "counted": 9,
+      "net": 22.2
+    },
+    {
+      "t": "2026-11-23T00:36:13+00:00",
+      "volume": 8,
+      "counted": 8,
+      "net": 12.5
+    },
+    {
+      "t": "2026-11-23T01:06:13+00:00",
+      "volume": 11,
+      "counted": 11,
+      "net": 63.6
+    },
+    {
+      "t": "2026-11-23T01:36:13+00:00",
+      "volume": 18,
+      "counted": 18,
+      "net": 38.9
+    },
+    {
+      "t": "2026-11-23T02:06:13+00:00",
+      "volume": 14,
+      "counted": 14,
+      "net": -7.1
+    },
+    {
+      "t": "2026-11-23T02:36:13+00:00",
+      "volume": 18,
+      "counted": 18,
+      "net": 11.1
+    },
+    {
+      "t": "2026-11-23T03:06:13+00:00",
+      "volume": 18,
+      "counted": 18,
+      "net": 27.8
+    },
+    {
+      "t": "2026-11-23T03:36:13+00:00",
+      "volume": 12,
+      "counted": 12,
+      "net": -25.0
+    },
+    {
+      "t": "2026-11-23T04:06:13+00:00",
+      "volume": 11,
+      "counted": 11,
+      "net": 27.3
+    },
+    {
+      "t": "2026-11-23T04:36:13+00:00",
+      "volume": 11,
+      "counted": 11,
+      "net": 0.0
+    },
+    {
+      "t": "2026-11-23T05:06:13+00:00",
+      "volume": 13,
+      "counted": 12,
+      "net": 33.3
+    },
+    {
+      "t": "2026-11-23T05:36:13+00:00",
+      "volume": 14,
+      "counted": 14,
+      "net": -28.6
+    },
+    {
+      "t": "2026-11-23T06:06:13+00:00",
+      "volume": 5,
+      "counted": 5,
+      "net": 0.0
+    },
+    {
+      "t": "2026-11-23T06:36:13+00:00",
+      "volume": 12,
+      "counted": 12,
+      "net": 0.0
+    },
+    {
+      "t": "2026-11-23T07:06:13+00:00",
+      "volume": 12,
+      "counted": 12,
+      "net": 16.7
+    },
+    {
+      "t": "2026-11-23T07:36:13+00:00",
+      "volume": 7,
+      "counted": 7,
+      "net": 0.0
+    },
+    {
+      "t": "2026-11-23T08:06:13+00:00",
+      "volume": 2,
+      "counted": 2,
+      "net": null
+    },
+    {
+      "t": "2026-11-23T08:36:13+00:00",
+      "volume": 14,
+      "counted": 5,
+      "net": -20.0
+    }
+  ],
+  "peaks": [
+    {
+      "t": "2026-11-22T14:36:13+00:00",
+      "volume": 52,
+      "counted": 51,
+      "net": 33.3
+    },
+    {
+      "t": "2026-11-22T15:36:13+00:00",
+      "volume": 46,
+      "counted": 46,
+      "net": 37.0
+    },
+    {
+      "t": "2026-11-22T15:06:13+00:00",
+      "volume": 43,
+      "counted": 41,
+      "net": 9.8
+    }
+  ],
+  "languages": {
+    "en": 177,
+    "ne": 174,
+    "hi": 148,
+    "rom": 97,
+    "emoji": 30,
+    "mixed": 7,
+    "other": 2
+  },
+  "top_words": [
+    [
+      "हो",
+      58
+    ],
+    [
+      "sir",
+      33
+    ],
+    [
+      "कुरा",
+      32
+    ],
+    [
+      "interview",
+      29
+    ],
+    [
+      "कडा",
+      26
+    ],
+    [
+      "तर",
+      26
+    ],
+    [
+      "नेता",
+      24
+    ],
+    [
+      "प्रश्न",
+      24
+    ],
+    [
+      "नै",
+      24
+    ],
+    [
+      "करोड",
+      22
+    ],
+    [
+      "good",
+      21
+    ],
+    [
+      "अन्तर्वार्ता",
+      18
+    ],
+    [
+      "लाग्यो",
+      18
+    ],
+    [
+      "मन",
+      18
+    ],
+    [
+      "आज",
+      18
+    ]
+  ],
+  "top_emojis": [
+    [
+      "😂",
+      135
+    ],
+    [
+      "❤",
+      80
+    ],
+    [
+      "🙏",
+      37
+    ],
+    [
+      "😅",
+      31
+    ],
+    [
+      "👍️",
+      20
+    ],
+    [
+      "🎉",
+      17
+    ],
+    [
+      "🤣",
+      17
+    ],
+    [
+      "👏",
+      12
+    ],
+    [
+      "😮",
+      10
+    ],
+    [
+      "❤️",
+      9
+    ]
+  ],
+  "top_hashtags": [
+    [
+      "#गोकुल",
+      1
+    ]
+  ],
+  "emerging_names": [
+    [
+      "Nation",
+      3
+    ],
+    [
+      "Speaks",
+      3
+    ],
+    [
+      "Vani",
+      3
+    ],
+    [
+      "Gajab",
+      3
+    ],
+    [
+      "Aile",
+      3
+    ],
+    [
+      "Jagga",
+      3
+    ]
+  ],
+  "coordinated_clusters": [],
+  "samples": {
+    "Gokul Prasad Baskota": {
+      "positive": [
+        "गोकुल दाइ धन्यवाद छ लालसलाम छ🙏🙏",
+        "baskota .. such a courageous person!! keep it up!! uplift your party",
+        "Gokul is really good speaker"
+      ],
+      "negative": [
+        "खतरा लाग्यो है गोकुल बास्कोताको जबाफ।",
+        "गोकुल जि अहिलेको अबस्था महङ्गो परेको इरान र इस्राईल र अमेरिको कारण हो है",
+        "म पार्टीगत हिसाबले फिटिक्कै जान्न, सवालजवाफको तार्किक प्रस्तुतिकरणमा तपाईं बास्कोटा भन्दा निकै फितलो देखिनु भो बानियाँ सर, क्षमता अभवृद्धिको खाँचो देखियो है।"
+      ]
+    },
+    "Rajendra Baniya (host)": {
+      "positive": [
+        "Good news ❤❤ baniya sit",
+        "Baniya sir❤❤😊😊 country king",
+        "Rajendra baniya sir you're great 🎉"
+      ],
+      "negative": [
+        "राजेन्द्र भित्ताको दुलो पर्ने गरि नै दिनु भो त ७० करोडलाई यिनिहरु अब उठ्न सक्दैन",
+        "Bho Rajendra sir yasta manxelai prashna nagarnus la pahila maoeadi tespaxi yemale ahie raja hi is stupid we are not like this manhe is stupid",
+        "राजेन्द्र बानियाँको पसिना छुताएनी गोकुलले।"
+      ]
+    }
+  },
+  "overall_samples": {
+    "positive": [
+      "It was a pleasure to watch your interview for the first time.",
+      "Very interesting talk show. Thank you for both.",
+      "गजब को अन्त्र्वार्ता सत्य बचन बोल्नु भयो🙏❤️❤️"
+    ],
+    "negative": [
+      "खतरा लाग्यो है गोकुल बास्कोताको जबाफ।",
+      "Irritating by showing highlights",
+      "मलाई बानियाँ जिको शो नै खतरनाक लाग्छ । मलाई बानियाँ जिको शो मा सबै पार्टी का अधक्छ्य हरु हेर्न मन छ"
+    ]
+  },
+  "superchats": {
+    "count": 0,
+    "amounts": []
+  },
+  "highlights": [
+    "Net sentiment +15 (positive minus negative) across 635 counted messages.",
+    "Gokul Prasad Baskota was mentioned 132 times vs Rajendra Baniya (host) 100 (1.3x). Net sentiment: +24 vs +30.",
+    "Top topic: CPN-UML (एमाले) (66 messages, net -32).",
+    "3% of raw messages were filtered (spam 7, flooding 0, repeats 12, copy-paste 0).",
+    "Activity peaked in the 30-minute window starting 14:36 UTC (52 messages)."
+  ],
+  "method": "Counts are of messages (live chat or comments, per the source) after removing empty, spam, flooding, repeated and copy-paste messages. Chat participants are not a representative sample of the public. Net sentiment = %positive - %negative, with a bootstrap 95% interval."
+}
